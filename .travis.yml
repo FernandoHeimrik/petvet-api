@@ -1,0 +1,17 @@
+language: java
+jdk:
+- openjdk8
+services:
+- docker
+script:
+- "./mvnw clean install -DskipTests"
+- "./mvnw jib:build -P deploy-docker"
+before_install:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker pull openjdk:8-jdk-alpine
+- chmod +x mvnw
+deploy:
+  provider: heroku
+  api_key:
+    secure: w7/L/mjq3lmMEeEUJRPtk2qwbNXFtgXsIN2lSTVZhL1je+D9jwYJTWtEX5Hgdjlh8XcRu2007Azslg4dZCaMM/FE9WIEDHhEGIVRk2lljSdM24vvKgFGU0IjOI82TTHn4ZJhKJEGsT+6SiACQA3ns+RqJ18CMlz6NE8eTZu/NjoPZOCGzVZEsXNkJV37StX2pKT5nM0q4kMXHN5mQtSgTYqrWV/W8cTT4EqKw0xll608HWsa5zi4MWbGWCF9BVnOGmlzsadlZnfa/bvoug9RbcQfdF2Esp9NFZeiktGLP6oJYwJE+TpgK2xTV99wdl5yZCGt1ahS876KK9rQD6AWucxxMzKGYHDpLlpkOlFPVZl0UIgoqc8T93a2zouP2CaOIncgf9LeB3m5VvSwJoNYTk6wFZxIYh6P2mxiJgqjsRR393FjdEFzvDuZM4nC37LhPYuFITZB9LU9l5jAdi2XbM68wiYYgFgt32Z9XEYEnKQ5m6cPpGtNecPtafwa4kV05TuyADUMB+qBhIGQaKBLNWHGN1wJXaWv3brLrRObMcgUqjeJpaJbCBwSTWqRW03tj+ePiQwVXf1PJ2DmzwkFGMbVggLVXq/yBPmAgQC6Y8e6UTojozgHgSFYRj1/NkXUuClEE4bW3CkfeUWtbHjZJ52OVJUX47aZej8DD7ylai4=
+  app: petvet-api
