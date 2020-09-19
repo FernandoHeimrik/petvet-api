@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.backend.api.model.User;
-import com.backend.api.model.enums.ProfileEnum;
+import com.backend.api.model.Veterinary;
 import com.backend.api.repository.IUserRepository;
+import com.backend.api.repository.IVeterinaryRepository;
 import com.backend.api.service.IUserService;
 import com.backend.api.service.exception.EmailUserAlreadyRegisteredException;
 
@@ -27,19 +27,26 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private IVeterinaryRepository veterinaryRepository;
 
 	@Override
 	public User createUser(@Valid User user) {
+		Optional<Veterinary> savedVet = veterinaryRepository.findByEmail(user.getEmail());
+		if (savedVet.isPresent()) {
+			throw new EmailUserAlreadyRegisteredException();
+		}
 		Optional<User> savedUser = userRepository.findByEmail(user.getEmail());
 		if (savedUser.isPresent()) {
 			throw new EmailUserAlreadyRegisteredException();
 		}
-		if (user.getProfile().equals(ProfileEnum.ROLE_VET)) {
-			Assert.notNull(user.getCrmvNumber(), "user.service.crmv.number.null");
-			Assert.notNull(user.getCrmvUf(), "user.service.crmv.uf.null");
-			// user.setEnabled(false); TODO: necessario validacao de crmv para ativar
-			// veterinario https://app.cfmv.gov.br/paginas/busca
-		}
+//		if (user.getProfile().equals(ProfileEnum.ROLE_VET)) {
+//			Assert.notNull(user.getCrmvNumber(), "user.service.crmv.number.null");
+//			Assert.notNull(user.getCrmvUf(), "user.service.crmv.uf.null");
+//			// user.setEnabled(false); TODO: necessario validacao de crmv para ativar
+//			// veterinario https://app.cfmv.gov.br/paginas/busca
+//		}
 		user.setEnabled(true);
 		user.setCreationAt(OffsetDateTime.now());
 		user.setUpdatedAt(OffsetDateTime.now());

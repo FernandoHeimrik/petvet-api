@@ -34,9 +34,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 							"/swagger-resources/**", "/configuration/**", "/webjars/**")
 					.permitAll();
 		}
-		http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/save").permitAll()
-				.antMatchers(HttpMethod.GET, "/users/list").hasAnyRole("ADMIN").anyRequest().authenticated().and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();
+		http.authorizeRequests()
+		.antMatchers(HttpMethod.POST, "/users/save").permitAll()
+				.antMatchers(HttpMethod.GET, "/users/list").hasAnyRole("ADMIN")
+				.antMatchers(HttpMethod.GET, "actuator/health").permitAll()
+				.anyRequest().authenticated().and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().csrf().disable();
 	}
 
 	@Bean

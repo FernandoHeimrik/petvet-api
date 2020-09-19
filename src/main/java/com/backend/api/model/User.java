@@ -40,11 +40,11 @@ public class User implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private ProfileEnum profile;
 
-	@Column(name = "CRMV_NUMBER")
-	private String crmvNumber;
+//	@Column(name = "CRMV_NUMBER")
+//	private String crmvNumber;
 
-	@Column(name = "CRMV_UF")
-	private String crmvUf;
+//	@Column(name = "CRMV_UF")
+//	private String crmvUf;
 
 	@Column(name = "ENABLED", nullable = false)
 	private Boolean enabled;
@@ -62,7 +62,6 @@ public class User implements Serializable {
 		this.enabled = true;
 		this.creationAt = OffsetDateTime.now();
 		this.updatedAt = OffsetDateTime.now();
-		// this.enabled = this.profile.equals(ProfileEnum.ROLE_VET) ? false : true;
 	}
 
 	public User(String name, String email, String password, @NotNull ProfileEnum profile, String crmvNumber,
@@ -70,10 +69,7 @@ public class User implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.profile = profile;
 		this.enabled = true;
-		this.crmvNumber = crmvNumber;
-		this.crmvUf = crmvUf;
 		this.creationAt = OffsetDateTime.now();
 		this.updatedAt = OffsetDateTime.now();
 	}
@@ -82,7 +78,6 @@ public class User implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.profile = profile;
 		this.enabled = true;
 		this.creationAt = OffsetDateTime.now();
 		this.updatedAt = OffsetDateTime.now();
@@ -134,22 +129,6 @@ public class User implements Serializable {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	public String getCrmvNumber() {
-		return crmvNumber;
-	}
-
-	public void setCrmvNumber(String crmvNumber) {
-		this.crmvNumber = crmvNumber;
-	}
-
-	public String getCrmvUf() {
-		return crmvUf;
-	}
-
-	public void setCrmvUf(String crmvUf) {
-		this.crmvUf = crmvUf;
 	}
 
 	public OffsetDateTime getCreationAt() {

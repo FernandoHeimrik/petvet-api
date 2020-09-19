@@ -24,8 +24,8 @@ public class NewUserView implements Serializable {
 	private String password;
 
 	private ProfileEnum profile;
-	private String crmvNumber;
-	private String crmvUf;
+//	private String crmvNumber;
+//	private String crmvUf;
 	private Boolean enabled;
 	private OffsetDateTime creationAt;
 	private OffsetDateTime updatedAt;
@@ -69,22 +69,6 @@ public class NewUserView implements Serializable {
 
 	public void setProfile(ProfileEnum profile) {
 		this.profile = profile;
-	}
-
-	public String getCrmvNumber() {
-		return crmvNumber;
-	}
-
-	public void setCrmvNumber(String crmvNumber) {
-		this.crmvNumber = crmvNumber;
-	}
-
-	public String getCrmvUf() {
-		return crmvUf;
-	}
-
-	public void setCrmvUf(String crmvUf) {
-		this.crmvUf = crmvUf;
 	}
 
 	public Boolean getEnabled() {
