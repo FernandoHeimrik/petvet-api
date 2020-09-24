@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,11 +72,11 @@ public class VeterinaryResource {
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<List<VeterinaryView>> getVeterinarys(VeterinaryFilter filter,Pageable pageable) {
+	public ResponseEntity<Page<VeterinaryView>> getVeterinarys(VeterinaryFilter filter,Pageable pageable) {
 		Page<Veterinary> vets = veterinaryService.getVetsList(filter, pageable);
 		List<VeterinaryView> vetsView = vets.stream().map(this::convertToView).collect(Collectors.toList());
-//		return ResponseEntity.ok().body(vets.stream().map(this::convertToView).collect(Collectors.toList()));
-		return ResponseEntity.ok().body(vetsView);
+		Page<VeterinaryView> page = new PageImpl<>(vetsView);
+		return ResponseEntity.ok(page);
 	}
 
 	@PutMapping("/{id}")

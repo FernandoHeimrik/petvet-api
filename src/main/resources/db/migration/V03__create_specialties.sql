@@ -1,0 +1,4 @@
+CREATE TABLE specialties(
+	vet_id VARCHAR(100) NOT NULL,
+	specialty VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

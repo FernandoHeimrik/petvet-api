@@ -37,7 +37,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/users/save").permitAll()
 				.antMatchers(HttpMethod.GET, "/users/list").hasAnyRole("ADMIN")
-				.antMatchers(HttpMethod.GET, "actuator/health").permitAll()
+				.antMatchers(HttpMethod.GET, "/actuator/health").permitAll()
 				.anyRequest().authenticated().and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

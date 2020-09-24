@@ -7,6 +7,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -14,14 +15,15 @@ import javax.persistence.Table;
 public class Veterinary extends User {
 	private static final long serialVersionUID = -4097084574268195730L;
 
-	@Column(name = "DESCRIPTION", nullable = false, length = 100)
+	@Column(name = "DESCRIPTION", nullable = false, length = 255)
 	private String description;
 
 //	@ManyToMany(fetch = FetchType.EAGER)
 //	@JoinTable(name = "VETERINARY_SPECIALTIES", joinColumns = @JoinColumn(name = "VETERINARY_ID"), inverseJoinColumns = @JoinColumn(name = "SPECIALTY_ID"))
 
 	@ElementCollection
-	@CollectionTable(name = "SPECIALTIES")
+	@CollectionTable(name = "SPECIALTIES", joinColumns = @JoinColumn(name = "VET_ID"))
+	@Column(name = "SPECIALTY")
 	private Set<String> specialties = new HashSet<>();
 
 	public String getDescription() {
