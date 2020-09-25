@@ -12,20 +12,25 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
 import com.backend.api.security.UserSystem;
 import com.backend.api.view.UserView;
+import com.backend.api.view.VeterinaryView;
 
 public class CustomTokenEnhancer implements TokenEnhancer {
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 		UserSystem userSystem = (UserSystem) authentication.getPrincipal();
-		
-		UserView userView = modelMapper.map(userSystem.getUser(), UserView.class);
-
 		Map<String, Object> addInfo = new HashMap<>();
-		addInfo.put("user", userView);
+		if (userSystem.getUser() != null) {
+			UserView userView = modelMapper.map(userSystem.getUser(), UserView.class);
+			addInfo.put("user", userView);
+		}
+		if (userSystem.getVet() != null) {
+			VeterinaryView vetView = modelMapper.map(userSystem.getVet(), VeterinaryView.class);
+			addInfo.put("vet", vetView);
+		}
 
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(addInfo);
 		return accessToken;
